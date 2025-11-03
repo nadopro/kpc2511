@@ -19,8 +19,7 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
   <title>사이트</title>
     <link href="asset/bootstrap.min.css" rel="stylesheet">
     <script src="asset/bootstrap.bundle.min.js"></script>
-  
-    <!-- B0916 -->
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body class="d-flex flex-column min-vh-100">
