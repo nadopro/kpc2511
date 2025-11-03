@@ -148,5 +148,5 @@ init파일은 carousel로 이미지를 슬라이딩하고 싶어.
 즉 menu.php, init.php, index.php를 만들어 줘.
 
 
-
+https://www.security.org/how-secure-is-my-password/
 

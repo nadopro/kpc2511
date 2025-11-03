@@ -12,10 +12,10 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <!-- menu1 -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">menu1</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">취약점 찾기</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/?cmd=menu1-1">menu1-1</a></li>
-            <li><a class="dropdown-item" href="/?cmd=menu1-2">menu1-2</a></li>
+            <li><a class="dropdown-item" href="/?cmd=test">test</a></li>
+            <li><a class="dropdown-item" href="/?cmd=injection">로그인(Injection)</a></li>
             <li><a class="dropdown-item" href="/?cmd=menu1-3">menu1-3</a></li>
           </ul>
         </li>
