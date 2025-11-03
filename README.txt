@@ -129,3 +129,24 @@ index.php에서는 db.php를 인클루드 후에
 $conn = connectDB();
 
 이렇게 구성해서 자동으로 DB연결이 되도록 할거야.
+
+Q4.
+
+index.php?cmd=login
+
+이 코드를 다음과 같이 구조를 바꾸고 싶어.
+navbar로 된 메뉴는 통채로 menu.php로 옮기고 싶어.
+이 파일을 include로 처리해 줘.
+
+index.php?cmd=test 와 같이 GET방식으로 cmd값을 차자.
+만약에 cmd가 없으면 init를 default로 해 줘.
+만약에 $cmd = $_GET['cmd'] 로 한 후, 디스플레이 하는 곳에
+include "$cmd.php" 이렇게 처리하고 싶어.
+init파일은 carousel로 이미지를 슬라이딩하고 싶어.
+이미지는 img 폴더에 있고, ny.jpg, la.jpg, chicago.jpg가 있어.
+
+즉 menu.php, init.php, index.php를 만들어 줘.
+
+
+
+
