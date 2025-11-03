@@ -150,3 +150,46 @@ init파일은 carousel로 이미지를 슬라이딩하고 싶어.
 
 https://www.security.org/how-secure-is-my-password/
 
+폴더만들기 : sess
+
+Q5.
+
+메뉴 아래에 로그인 여부를 버튼으로 표시하고 싶어.
+로그인을 위해 세션으로 처리하는데,
+세션 정보는 "sess"폴더에서 수행할거야.
+
+우리가 현재 작업하는 구조는 모두 index.php를 통과하도록 되어있어.
+맨 위에 세션이 저장되는 위치와 세션 시작을 표시해줘.
+
+메뉴의 첫번째는 다음과 같이 수정했어.
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">취약점 찾기</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/?cmd=test">test</a></li>
+            <li><a class="dropdown-item" href="/?cmd=injection">로그인(Injection)</a></li>
+            <li><a class="dropdown-item" href="/?cmd=menu1-3">menu1-3</a></li>
+          </ul>
+        </li>
+
+세션의 이름은 "kpc_id" : 사용자 아이디
+"kpc_name" : 사용자 이름을 저장
+"kpc_level" " 사용자의 등급(1: 사용자, 9: 관리자)
+
+injection.php에는 로그인하는 코드를 만들어 줘.
+만약에 로그인 된 경우에는 메뉴 밑에 오른쪽에 버튼 "홍길동님 로그아웃"
+버튼을 만들고
+로그인이 안된경우에는 "로그인" 버튼을 만들고 클릭하면 index.php?cmd=injection 
+로 이동해 줘.
+
+    즉 injection.php 파일을 만들고, menu밑에 로그인여부 버튼을 만들고,
+    index.php 을 수정해 줘.
+
+
+Q6.
+
+로그인은 하드코딩하거랴.
+id : admin, pass : 1111 ==> 관리자로 로그인 , 레벨 9
+id : test, pass : 1111 ==> "테스트"로 로그인 , 레벨 1
+나머지는 "아이디와 비밀번호를 확인하세요" alert()해 줘.
+injection.php 파일을 수정해 줘.

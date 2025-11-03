@@ -1,6 +1,10 @@
 <?php
 // index.php
 // DB 연결
+
+session_save_path("./sess");
+session_start();
+
 include_once __DIR__ . "/db.php";
 $conn = connectDB();
 
