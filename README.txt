@@ -193,3 +193,10 @@ id : admin, pass : 1111 ==> 관리자로 로그인 , 레벨 9
 id : test, pass : 1111 ==> "테스트"로 로그인 , 레벨 1
 나머지는 "아이디와 비밀번호를 확인하세요" alert()해 줘.
 injection.php 파일을 수정해 줘.
+
+
+주소창에 입력
+
+javascript:alert(document.cookie);
+
+download burp suite
