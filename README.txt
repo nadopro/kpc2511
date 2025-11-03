@@ -113,3 +113,19 @@ menu3에는 menu3-1, menu3-2
 만약에 본문의 내용이 너무 적은 경우에는 사이트정보를 화면의
 맨 아래에 배치해 줘.
 
+Q3.
+
+이 코드에 데이터베이스를 연결할거야.
+코드의 맨앞에 db.php라는 파일을 include 할 거야.
+
+db.php에는 다음을 추가해 줘.
+db name : secure
+db user : secure
+db pass : 1111
+인데, connectDB()를 만들건데,
+이 함수는 DB연결후, 접속정보인 conn 를 반환해
+
+index.php에서는 db.php를 인클루드 후에
+$conn = connectDB();
+
+이렇게 구성해서 자동으로 DB연결이 되도록 할거야.

@@ -1,6 +1,9 @@
 <?php
-// index.php
+    // DB 연결
+    include_once "db.php";
+    $conn = connectDB();
 ?>
+
 <!doctype html>
 <html lang="ko">
 <head>
