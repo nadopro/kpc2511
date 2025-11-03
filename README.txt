@@ -67,6 +67,9 @@ name은 조선시대 역사책에 나오는 인물로 10명을 무작위로 넣�
 id : 이름을 기반으로 임의로 정해
 모든 비밀번호는 암호화 없이 1111 로 정해.
 
+github.com/nadopro/kpc2511
+
+
 DROP TABLE IF EXISTS first;
 
 -- 스키마 생성
@@ -89,3 +92,24 @@ INSERT INTO first (id, name, pass) VALUES
 ('kim_simin',       '김시민',     '1111'),
 ('kim_jeongho',     '김정호',     '1111'),
 ('jeong_cheol',     '정철',       '1111');
+
+Q2.
+
+다음 조건을 만족하는 index.php을 만들어 줘.
+HTML5, Bootstrap5를 이용해서 반응형 홈페이지를 만들거야.
+상단에는 Navbar를 이용해서 메뉴를 구성할거야.
+메뉴에는 menu1, menu2, menu3이 있어.
+각각의 메뉴는 dropdown으로 구성하는데,
+menu1에는 menu1-1, menu1-2, menu1-3,
+menu2에는 menu2-1, menu2-2
+menu3에는 menu3-1, menu3-2
+
+내용에는
+"한국생산성본부 보안 프로그램" 만 써줘.
+하단에는 사이트 정보가 있는데,
+"한국 생산성본부(KPC)
+정보보호책임자 : 홍길동 (help@kpc.or.kr)" 이렇게 적어줘.
+
+만약에 본문의 내용이 너무 적은 경우에는 사이트정보를 화면의
+맨 아래에 배치해 줘.
+
