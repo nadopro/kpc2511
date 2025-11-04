@@ -545,3 +545,66 @@ main()
 
 A 
 B 
+
+
+Q12.
+
+다음 코드를 응용해서 코드를 변경해 줘.
+
+<?php
+
+    $letters = "abcdefghij";
+    $size = strlen($letters);
+    echo "size = $size<br>";
+
+    $cnt = 0;
+
+    for($i = 0; $i < $size; $i++)
+    {
+        for($j = 0; $j < $size; $j++)
+        {
+            for($k = 0; $k < $size; $k++)
+            {
+                for($l = 0; $l < $size; $l++)
+                {
+                    $cnt ++;
+
+                    $pass = $letters[$i] . $letters[$j] . $letters[$k] . $letters[$l];
+                    $sql = "select * from users where pass='$pass' ";
+                    $result = mysqli_query($conn, $sql);
+                    $data = mysqli_fetch_array($result);
+                    if($data)
+                    { // find
+                        while($data)
+                        {
+                            $id = $data["id"];
+                            echo "id = $id, pass = $pass <br>";
+                            $data = mysqli_fetch_array($result);
+                        }
+
+                        exit();
+                    }
+                    if($cnt > 100000)
+                        exit();
+                }
+            }
+        }
+    
+    }
+
+?>
+
+
+이때, $cnt 가 없으면 0이고
+0 일때는 aaaa 라는 문자를 만들고,
+1 일때는 aaab 라는 문자를 만들고,
+2 일때는 aaac 라는 문자를 만들어.
+
+이렇게 cnt값에 따라 조합 가능한 모든 문자열을 순차적으로 증가하는데,
+index.php?cmd=brute3&cnt=1
+이렇게 GET 방식으로 cnt가 결정되면 해당하는 문자인 (예: aaaa)를 찾아
+데이터베이스를 검사해.
+
+cnt값을 증가시켜서 다음 링크로 이동해.
+setTimeout을 이용해 1초마다 한번씩 호출하도록 변경해 줘.
+

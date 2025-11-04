@@ -1,6 +1,6 @@
 <?php
 
-    $letters = "abcdefghijklmnopqrstuvwxyz";
+    $letters = "abcdefghij";
     $size = strlen($letters);
     echo "size = $size<br>";
 
