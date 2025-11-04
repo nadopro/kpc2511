@@ -18,19 +18,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $ok = false;
 
-    $sql = "select * from users where id='$id' and pass='$pw'";
-    $result = mysqli_query($conn, $sql);
-    $data = mysqli_fetch_array($result);
-
-    if($data)
-    {
-      $_SESSION['kpc_id']    = $data['id'];
-      $_SESSION['kpc_name']  = $data['name'];
-      $_SESSION['kpc_level'] = $data['level'];
-      $ok = true;
-
-    }
     // 하드코딩 계정
+    if ($id === 'admin' && $pw === '1111') {
+        $_SESSION['kpc_id']    = 'admin';
+        $_SESSION['kpc_name']  = '관리자';
+        $_SESSION['kpc_level'] = 9;
+        $ok = true;
+    } elseif ($id === 'test' && $pw === '1111') {
+        $_SESSION['kpc_id']    = 'test';
+        $_SESSION['kpc_name']  = '테스트';
+        $_SESSION['kpc_level'] = 1;
+        $ok = true;
+    }
 
     if ($ok) {
         echo '<script>alert("로그인 성공"); location.href="/?cmd=init";</script>';
