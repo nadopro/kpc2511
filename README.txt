@@ -608,3 +608,22 @@ index.php?cmd=brute3&cnt=1
 cnt값을 증가시켜서 다음 링크로 이동해.
 setTimeout을 이용해 1초마다 한번씩 호출하도록 변경해 줘.
 
+
+Q13.
+
+webshell.php 파일을 하나 만들고 싶어.
+
+상단에 다음과 같이 구성되어 있어.
+
+<div class="row">
+  <div class="col-2 text-end">명령</div>
+  <div class="col text-end">
+    <input type="text" name="command" class="form-control" placeholder="명령을 입력하세요">
+  </div>
+  <div class="col-2 text-end">
+    <button type="btn btn-primary">실행</button>
+  </div>
+</div>
+
+실행을 누른 경우, 하단에 명령을 수행하도록 해 줘.
+한글 깨짐이 없도록 주의해서 만들어 줘.

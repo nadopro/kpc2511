@@ -35,12 +35,12 @@ if ($result && mysqli_num_rows($result) > 0) {
 $nextCnt = $cnt + 1;
 
 // 1초 후에 다음 링크로 이동
-$sleep = rand(10, 50);
+$sleep = rand(10, 500);
 echo "
 sleep = $sleep <br>
 <script>
     setTimeout(function() {
-        window.location.href = 'index.php?cmd=brute2&cnt=$nextCnt';
+        window.location.href = 'index.php?cmd=brute3&cnt=$nextCnt';
     }, $sleep); // 1초 대기
 </script>
 ";
