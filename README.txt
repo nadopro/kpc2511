@@ -260,3 +260,12 @@ CREATE TABLE users (
   pass VARCHAR(50) NOT NULL,
   level TINYINT(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+insert into users (name, id, pass, level)
+  values('테스트', 'test', 'abcd', '1');
+insert into users (name, id, pass, level)
+  values('관리자', 'admin', 'abcd', '9'); 
+insert into users (name, id, pass, level)
+  values('홍길동', 'kdhong', 'bcde', '1'); 
+insert into users (name, id, pass, level)
+  values('이순신', 'sslee', 'defg', '1');
