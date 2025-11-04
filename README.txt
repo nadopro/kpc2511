@@ -200,3 +200,63 @@ injection.php 파일을 수정해 줘.
 javascript:alert(document.cookie);
 
 download burp suite
+
+
+netstat -ano | findstr ":80"
+netsh http show urlacl
+
+sc query W3SVC
+sc query WAS
+sc query MsDepSvc
+
+net stop W3SVC
+net stop WAS
+net stop MsDepSvc
+
+sc config W3SVC start= disabled
+sc config WAS start= disabled
+sc config MsDepSvc start= disabled
+
+
+0001 0010 0011 0100 : 1.2.3.4
+0001 0010 0011 0111 : 1.2.3.7
+1111 1111 1111 0000 :255.255.255.0
+0001 0010 0011 0000 : 1.2.3.0
+
+175.114.70.15
+
+
+0000 0000
+0111 1111 : 0 - 127 : A class
+  50.*.*.* : 1600만개
+  10.*.*.* : private ip
+  127.*.*.* : loop back address
+1000 0000
+1011 1111  : 128 - 191  : B class
+  175.114.*.* : 65K
+  172.*. :private address
+1100 0000
+1101 1111 : 192 - 221 : class
+  200.12.10-15.*
+  192.168.*.*
+
+  Q7.
+
+  회원가입한 사용자 정보를 모아놓은 데이터베이스 테이블을 
+  다음과 같이 만들거야.
+
+  table name : users
+  idx : int, auto_increment, primary KEY
+  name : varchar(30)
+  id : varchar(30), unique
+  pass : varchar(50),
+  level : 회원 등급(1:일반회원, 9: 관리자)
+
+
+CREATE TABLE users (
+  idx INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30) NOT NULL,
+  id VARCHAR(30) NOT NULL UNIQUE,
+  pass VARCHAR(50) NOT NULL,
+  level TINYINT(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
