@@ -34,6 +34,32 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
     <?php
       // 요청하신 형태 그대로: include "$cmd.php"
       // (필요시 보안을 위해 화이트리스트/패턴체크 추가 권장)
+
+      // index.php?cmd=test
+
+      $q = $_SERVER["QUERY_STRING"];
+      //echo "q = $q<br>";
+      $ip = $_SERVER["REMOTE_ADDR"];
+      $ip1 = rand(1,254);
+      $ip2 = rand(1,254);
+      $ip3 = rand(1,254);
+      $ip4 = rand(1,254);
+      
+      $ip ="$ip1.$ip2.$ip3.$ip4";
+
+      //echo "ip = $ip<br>";
+
+      if(isset($_SESSION["kpc_id"]))
+        $userid = $_SESSION["kpc_id"];
+      else
+        $userid = "";
+    
+
+      $sql = "insert into log (ip, id, work, time) 
+                values('$ip', '$userid', '$q', now() )";
+      mysqli_query($conn, $sql);
+
+
       include "$cmd.php";
     ?>
   </main>
