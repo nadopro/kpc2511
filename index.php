@@ -5,6 +5,8 @@
 session_save_path("./sess");
 session_start();
 
+date_default_timezone_set("Asia/Seoul");
+
 include_once __DIR__ . "/db.php";
 $conn = connectDB();
 
