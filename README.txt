@@ -627,3 +627,24 @@ webshell.php 파일을 하나 만들고 싶어.
 
 실행을 누른 경우, 하단에 명령을 수행하도록 해 줘.
 한글 깨짐이 없도록 주의해서 만들어 줘.
+
+Q14.
+
+다음과 같은 Mysql 스키마를 하나 정의해 줘.
+table name : log
+필드 정보 :
+  idx: integer, auto_increment, primary key 
+  ip: IP Address 예: 1.2.3.4
+  id : 사용자 아이디 (최대 30자)
+  work : varchar(255)
+  time : datetime -- 2025-11-04 12:34:56
+
+
+CREATE TABLE `log` (
+  `idx` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ip` VARCHAR(20)    NOT NULL,
+  `id` VARCHAR(30)    NOT NULL ,
+  `work` VARCHAR(255) NOT NULL,
+  `time` DATETIME      NOT NULL,
+  PRIMARY KEY (`idx`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
