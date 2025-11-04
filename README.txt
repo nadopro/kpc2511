@@ -349,3 +349,95 @@ $pass = "1111";
 select * from users where id='$id' and pass='$pass' ;
                             aaaa' or 2>1 -- 
 select * from users where id='aaaa' or 2>1 -- ' and pass='$pass' ;
+
+
+TCP/IP
+
+naming rule
+
+secureLogin
+
+myFamilyCount, my_family_count
+
+
+Q9.
+
+<?php
+// injection.php
+// 하드코딩 로그인 전용
+// 세션은 index.php에서 이미 시작됨 (kpc_id, kpc_name, kpc_level 사용)
+
+// 로그아웃 처리 (?action=logout)
+$action = $_GET['action'] ?? '';
+if ($action === 'logout') {
+    unset($_SESSION['kpc_id'], $_SESSION['kpc_name'], $_SESSION['kpc_level']);
+    echo '<script>alert("로그아웃 되었습니다."); location.href="/?cmd=init";</script>';
+    return;
+}
+
+// 로그인 처리 (POST)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $id = $_POST['id'] ?? '';
+    $pw = $_POST['pw'] ?? '';
+
+    $ok = false;
+
+    $sql = "select * from users where id='$id' and pass='$pw'";
+    $result = mysqli_query($conn, $sql);
+    $data = mysqli_fetch_array($result);
+
+    if($data)
+    {
+      $_SESSION['kpc_id']    = $data['id'];
+      $_SESSION['kpc_name']  = $data['name'];
+      $_SESSION['kpc_level'] = $data['level'];
+      $ok = true;
+
+    }
+    // 하드코딩 계정
+
+    if ($ok) {
+        echo '<script>alert("로그인 성공"); location.href="/?cmd=init";</script>';
+        return;
+    } else {
+        echo '<script>alert("아이디와 비밀번호를 확인하세요."); location.href="/?cmd=injection";</script>';
+        return;
+    }
+}
+
+// GET: 로그인 폼 출력
+?>
+
+현재 sql injection 테스트를 위한 로그인 파일(secureLogin.php)이
+다음처럼 만들어져있어.
+첫번째, 사용자 로그인 버튼을 눌렀을때, 입력값 검사를 수행하고 싶어.
+1. 아이디와 비밀번호에는 공백(space), 따옴표(' 또는 "), 빼기표시(-)
+가 안들어가도록 정규식으로 검사하고, 아이디와 비번 모두 4글자 이상이어야 해.
+
+2. 이를 수신한 서버에서는 아이디와 비번에 특수 문자 등이 안들어가서
+sql injection을 방지하도록 아래 코드를 수정해 줘.
+
+<div class="row justify-content-center">
+  <div class="col-12 col-md-6">
+    <h3 class="mb-3">로그인</h3>
+    <form method="post"  action="/?cmd=secureLogin">
+      <div class="mb-3">
+        <label class="form-label">ID</label>
+        <input type="text" name="id"  class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">PW</label>
+        <input type="password" name="pw" class="form-control" required>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">로그인</button>
+        <a href="/?cmd=init" class="btn btn-outline-secondary">취소</a>
+      </div>
+    </form>
+    <hr>
+    <div class="text-muted small mt-2">
+      * 테스트 계정: admin / abcd (레벨 9), test / abcd (레벨 1)
+    </div>
+  </div>
+</div>

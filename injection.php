@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     <hr>
     <div class="text-muted small mt-2">
-      * 테스트 계정: admin / 1111 (레벨 9), test / 1111 (레벨 1)
+      * 테스트 계정: admin / abcd (레벨 9), test / abcd (레벨 1)
     </div>
   </div>
 </div>

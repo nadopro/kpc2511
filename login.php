@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="row justify-content-center">
   <div class="col-12 col-md-6">
     <h3 class="mb-3">로그인</h3>
-    <form method="post" action="/?cmd=injection">
+    <form method="post" action="/?cmd=login">
       <div class="mb-3">
         <label class="form-label">ID</label>
         <input type="text" name="id" class="form-control" required>
