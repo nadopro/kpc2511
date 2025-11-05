@@ -39,6 +39,7 @@ $kpc_level = isset($_SESSION['kpc_level']) ? (int)$_SESSION['kpc_level'] : 0;
             <li><a class="dropdown-item" href="/?cmd=chart">구글차트</a></li>
             <li><a class="dropdown-item" href="/?cmd=generator">데이터생성기</a></li>
             <li><a class="dropdown-item" href="/?cmd=monitor">모니터링</a></li>
+            <li><a class="dropdown-item" href="/?cmd=log">로그관리</a></li>
           </ul>
         </li>
 
@@ -52,7 +53,7 @@ $kpc_level = isset($_SESSION['kpc_level']) ? (int)$_SESSION['kpc_level'] : 0;
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">관리자전용</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/?cmd=menu3-1">menu3-1</a></li>
+            <li><a class="dropdown-item" href="/?cmd=log">로그관리</a></li>
             <li><a class="dropdown-item" href="/?cmd=menu3-2">menu3-2</a></li>
           </ul>
         </li>
