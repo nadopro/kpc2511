@@ -1,5 +1,13 @@
 <?php
-    $sql = "select * from sensor order by idx asc";
+
+    $sql = "select *  from sensor";
+    $result = mysqli_query($conn, $sql);
+    $rows = mysqli_num_rows($result);
+    echo "$rows <br>";
+    $start = $rows - 100;
+
+
+    $sql = "select * from sensor order by idx asc limit $start, 200";
     $result = mysqli_query($conn, $sql);
     $data = mysqli_fetch_array($result);
 ?>
