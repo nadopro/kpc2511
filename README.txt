@@ -201,6 +201,9 @@ javascript:alert(document.cookie);
 
 download burp suite
 
+=====================================================
+                    Day 2
+=====================================================
 
 netstat -ano | findstr ":80"
 netsh http show urlacl
@@ -648,3 +651,56 @@ CREATE TABLE `log` (
   `time` DATETIME      NOT NULL,
   PRIMARY KEY (`idx`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+=====================================================
+                    Day 3
+=====================================================
+
+void print(char *ptr)
+{
+	char buf[100];
+	bzero(buf, sizeof(buf));
+	strcpy(buf, ptr);
+}
+
+// ./test Hello
+// ./test "hello world"
+
+int main(int argc, char **argv)
+{
+	print(argv[1]);
+	return 0;
+}
+
+게시판 ..
+
+Q15.
+게시판을 위해서 Mysql 스키마를 만들려고 해.
+
+table name : bbs
+idx : 게시글의 키값, 자동 증가
+bid : 게시판의 종류, 예: 1(공지사항), 2(자유게시판)
+title : 게시글의 제목
+html : 게시글의 내용, mediumtext
+id : 사용자 아이디
+file : 파일의 이름
+time : datetime
+
+
+CREATE TABLE bbs (
+  idx   INT UNSIGNED NOT NULL AUTO_INCREMENT primary key,
+  bid   TINYINT UNSIGNED NOT NULL COMMENT '1=공지, 2=자유',
+  title VARCHAR(200) NOT NULL,
+  html  MEDIUMTEXT NOT NULL,
+  id    VARCHAR(30) NOT NULL COMMENT '작성자 아이디',
+  file  VARCHAR(255) DEFAULT NULL COMMENT '첨부 파일명',
+  time  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO bbs (bid, title, html, id, file, time) VALUES
+(1, '공지사항 게시판 글쓰기 1', '공지사항 게시판 글쓰기 1번째 테스트', 'admin', NULL, NOW()),
+(1, '공지사항 게시판 글쓰기 2', '공지사항 게시판 글쓰기 2번째 테스트', 'admin', NULL, NOW()),
+(2, '자유게시판 글쓰기 1', '자유게시판 글쓰기 1번째 테스트', 'admin', NULL, NOW()),
+(2, '자유게시판 글쓰기 2', '자유게시판 글쓰기 2번째 테스트', 'admin', NULL, NOW());
