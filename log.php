@@ -18,6 +18,21 @@
 
     echo "date = $date    $date 00:00:00<br>";
 
+
+    if(!isset($_SESSION['sess_sms']))
+        $_SESSION['sess_sms'] = "";
+
+    if($_SESSION['sess_sms'])
+    {
+        echo "SMS는 이미 발송했습니다.<br>";
+    }else
+    {
+        $SendingMsg = "접속자가 갑자기 증가했습니다. 확인하세요.";
+        include "auto_sms.php";
+        $_SESSION['sess_sms'] = "sendOK";
+    }
+
+
     if($fail == true)
     {
         echo "
