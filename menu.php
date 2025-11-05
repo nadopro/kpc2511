@@ -26,6 +26,8 @@ $kpc_level = isset($_SESSION['kpc_level']) ? (int)$_SESSION['kpc_level'] : 0;
             <li><a class="dropdown-item" href="/?cmd=brute2">Brute Force2</a></li>
             <li><a class="dropdown-item" href="/?cmd=brute3">Brute Force3</a></li>
             <li><a class="dropdown-item" href="/?cmd=webshell">Web Shell</a></li>
+            <li><a class="dropdown-item" href="/?cmd=board&bid=1">공지사항</a></li>
+            <li><a class="dropdown-item" href="/?cmd=board&bid=2">자유게시판</a></li>
           </ul>
         </li>
 
