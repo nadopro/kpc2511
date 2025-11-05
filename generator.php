@@ -1,6 +1,6 @@
 <?php
-    $temp = mt_rand(3000, 3100) / 100 ; 
-    $hum = mt_rand(6000, 6100) / 100 ; 
+    $temp = mt_rand(3500, 3600) / 100 ; 
+    $hum = mt_rand(5500, 5600) / 100 ; 
 
     $sql = "insert into sensor (temp, hum, time) 
             values('$temp', '$hum', now())";
