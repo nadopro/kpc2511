@@ -22,7 +22,7 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
   <title>사이트</title>
     <link href="asset/bootstrap.min.css" rel="stylesheet">
     <script src="asset/bootstrap.bundle.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body class="d-flex flex-column min-vh-100">
