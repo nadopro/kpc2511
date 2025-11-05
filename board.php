@@ -150,7 +150,7 @@ if ($mode === 'write') {
     echo "<div class='row mb-3'>";
     echo "  <div class='col-2 colLine text-end'>작성자</div>";
     echo "  <div class='col colLine'>";
-    echo "      <input type='text' name='id' value='{$_SESSION['kpcid']}' class='form-control' readonly>";
+    echo "      <input type='text' name='id' value='{$_SESSION['kpc_id']}' class='form-control' readonly>";
     echo "  </div>";
     echo "</div>";
     

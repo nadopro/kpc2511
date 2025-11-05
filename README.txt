@@ -753,3 +753,38 @@ mysqli_query("insert into ..");
 데이터를 가져올때는 mysqli_fetch_array($conn, $result);
 형태로 바꿔줘.
 코드를 잘못 만들면 XSS와 같은 공격을 당할 수 있다는 것을 학습하려고해.
+
+
+<script>
+  for(var i = 1; i <= 3; i++)
+  {
+    location.href=''
+  }
+</script>
+
+스크립트 테스트입니다.
+<script>for(var i=1; i<=3; i++) alert(i); </script>
+
+XSS : Cross Site Scripting
+
+X : Ex 
+XP : Expert
+XML : 
+X : Xmit : trans
+
+WYSIWIG : What You See Is What You Get
+
+Q18.
+
+WYSIWYG 게시판에서 글쓰기 하는 부분을 예제로 만들고 싶어.
+index.php?cmd=editor
+
+editor.php 파일을 만들어줘.
+
+상단에는 제목, 버튼 입력부, 글쓰기 부, 글등록 버튼
+버튼입력부에는 Bold, Underline, Italic 버튼을 만들거야.
+이 버튼은 material-icons를 이용할건데,
+이를 위해 index.php에 이미
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+이렇게 등록해 놨어.
+이런 예제를 하나 만들어 줘. 글쓰기 부분만 있으면 돼
