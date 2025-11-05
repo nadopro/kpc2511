@@ -806,10 +806,10 @@ time : datetime
 
 CREATE TABLE sensor (
   idx  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  temp FLOAT NOT NULL COMMENT '온도',
-  hum  FLOAT NOT NULL COMMENT '습도',
-  time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '측정 시각'
+  temp FLOAT NOT NULL ,
+  hum  FLOAT NOT NULL ,
+  time DATETIME 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-insert into sensor temp, hum, time 
+insert into sensor (temp, hum, time) 
   values('27.5', '60.1', now());
