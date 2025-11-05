@@ -813,3 +813,6 @@ CREATE TABLE sensor (
 
 insert into sensor (temp, hum, time) 
   values('27.5', '60.1', now());
+
+
+Crawling : wget, curl (ClientURL)
