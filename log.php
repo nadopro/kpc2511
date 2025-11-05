@@ -13,6 +13,10 @@
             $fail = false;
         }
     }
+    // 2025-11-05 12:34:56
+    $date = Date('Y-m-d');
+
+    echo "date = $date    $date 00:00:00<br>";
 
     if($fail == true)
     {
@@ -24,6 +28,45 @@
         ";
     }
 
+?>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['time', '접속자 수'],
+          <?php
+
+            for($i=0; $i<24; $i++)
+            {
+                $sql = "select count(*) as vis from log where time >='$date $i:00:00' and time <= '$date $i:59:59' ";
+                $result = mysqli_query($conn, $sql);
+                $data = mysqli_fetch_array($result);
+                $visitor = $data['vis'];
+                echo "['$i:00', $visitor ],";
+            }
+
+          ?>
+
+        ]);
+
+        var options = {
+          title: '접속 로그',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+
+    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+
+<?php
     $sql = "select * from log order by idx desc limit 50";
     $result = mysqli_query($conn, $sql);
     $data = mysqli_fetch_array($result);
