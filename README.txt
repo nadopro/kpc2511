@@ -746,3 +746,10 @@ $mode == "show" : 글 내용보기
 
 board.php 파일을 만들어 줘.
 
+Q17.
+지금 만든 코드를 보안 공부를 하기 위해서
+mysqli_query("insert into ..");
+이런 형태의 단순한 쿼리로 바꿔줘.
+데이터를 가져올때는 mysqli_fetch_array($conn, $result);
+형태로 바꿔줘.
+코드를 잘못 만들면 XSS와 같은 공격을 당할 수 있다는 것을 학습하려고해.

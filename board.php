@@ -1,286 +1,238 @@
 <?php
-// board.php
-// 전제: session_start(), $conn(mysqli) 준비됨
-// 필수 GET: bid (게시판 구분: 1=공지, 2=자유)
-// 선택 GET: mode (list | write | show | delete), page, idx
+// 필수 파라미터 확인
+$cmd = $_GET['cmd'] ?? null;
+$bid = $_GET['bid'] ?? null;
 
-if (!isset($conn) || !($conn instanceof mysqli)) {
-    echo '<div class="alert alert-danger">DB 연결이 없습니다.</div>';
-    return;
+// 게시판 종류 정의
+$boardNames = [
+    1 => '자유게시판',
+    2 => 'QnA게시판'
+];
+$boardName = $boardNames[$bid] ?? null;
+if (!$boardName) {
+    die('존재하지 않는 게시판입니다.');
 }
 
-$bid  = isset($_GET['bid']) ? (int)$_GET['bid'] : 0;
-$mode = isset($_GET['mode']) ? $_GET['mode'] : 'list';
-$page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
-$idx  = isset($_GET['idx']) ? (int)$_GET['idx'] : 0;
+// mode 결정
+$mode = $_GET['mode'] ?? 'list';
+$idx = $_GET['idx'] ?? null;
+$bid = $_GET['bid'];
 
-if ($bid <= 0) {
-    echo '<div class="alert alert-warning">잘못된 접근입니다. (bid 누락)</div>';
-    return;
+// index.php?cmd=board&bid=1
+// index.php?cmd=board&bid=1+where &idx=2
+
+if(is_numeric($bid)  )
+{
+
+}else
+{
+    echo "
+    <script>
+        location.href='http://warning.or.kr';
+    </script>
+    ";
+    exit();
 }
 
-// 공통 유틸
-function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
-function ymd($dt) {
-    $ts = strtotime($dt);
-    return $ts ? date('Y-m-d', $ts) : h($dt);
-}
-
-// 글 목록(list)
+// 글 목록 보기
 if ($mode === 'list') {
-    $perPage = 10;
-    $offset  = ($page - 1) * $perPage;
+    $page = $_GET['page'] ?? 1;
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
 
-    // 전체 개수
-    $stmtCnt = mysqli_prepare($conn, "SELECT COUNT(*) FROM bbs WHERE bid = ?");
-    mysqli_stmt_bind_param($stmtCnt, "i", $bid);
-    mysqli_stmt_execute($stmtCnt);
-    mysqli_stmt_bind_result($stmtCnt, $totalCount);
-    mysqli_stmt_fetch($stmtCnt);
-    mysqli_stmt_close($stmtCnt);
-
-    // 목록
-    $stmt = mysqli_prepare($conn,
-        "SELECT idx, title, id, time
-         FROM bbs
-         WHERE bid = ?
-         ORDER BY idx DESC
-         LIMIT ? OFFSET ?");
-    mysqli_stmt_bind_param($stmt, "iii", $bid, $perPage, $offset);
-    mysqli_stmt_execute($stmt);
-    $res = mysqli_stmt_get_result($stmt);
-
-    $rows = [];
-    while ($row = mysqli_fetch_assoc($res)) $rows[] = $row;
-    mysqli_free_result($res);
-    mysqli_stmt_close($stmt);
-
-    // 페이지 계산
-    $totalPages = max(1, (int)ceil($totalCount / $perPage));
-    $startNo = $totalCount - $offset;
-
-    ?>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h4 class="mb-0"><?= h($bid === 1 ? '공지사항' : ($bid === 2 ? '자유게시판' : '게시판')) ?> 목록</h4>
-      <div>
-        <a class="btn btn-sm btn-primary" href="/?cmd=board&bid=<?= $bid ?>&mode=write">글쓰기</a>
-      </div>
+    $query = "SELECT idx, title, id, time FROM bbs WHERE bid = $bid ORDER BY idx DESC LIMIT $offset, $limit";
+    $result = mysqli_query($conn, $query);
+    
+    echo "<h2>$boardName</h2>";
+    echo "
+    <div class='row'>
+        <table class='table table-bordered'>
+            <tr>
+                <th class='col'>번호</th>
+                <th class='col-7'>제목</th>
+                <th class='col'>작성자</th>
+                <th class='col'>작성일</th>
+            </tr>";
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>
+                        <td class='col'>{$row['idx']}</td>
+                        <td class='col-7'><a href='index.php?cmd=board&bid=$bid&mode=show&idx={$row['idx']}'>{$row['title']}</a></td>
+                        <td class='col'>{$row['id']}</td>
+                        <td class='col'>{$row['time']}</td>
+                    </tr>";
+    }
+    echo "</table>
     </div>
+    ";
 
-    <div class="table-responsive">
-      <table class="table table-hover align-middle">
-        <thead class="table-light">
-          <tr>
-            <th style="width:90px;">순서</th>
-            <th>제목</th>
-            <th style="width:160px;">작성일</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if (empty($rows)): ?>
-            <tr><td colspan="3" class="text-center text-muted">등록된 글이 없습니다.</td></tr>
-          <?php else: ?>
-            <?php foreach ($rows as $r): ?>
-              <tr>
-                <td><?= (int)$startNo-- ?></td>
-                <td>
-                  <a href="/?cmd=board&bid=<?= $bid ?>&mode=show&idx=<?= (int)$r['idx'] ?>">
-                    <?= h($r['title']) ?>
-                  </a>
-                </td>
-                <td><?= ymd($r['time']) ?></td>
-              </tr>
-            <?php endforeach; ?>
-          <?php endif; ?>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 페이지네이션 -->
-    <nav aria-label="page">
-      <ul class="pagination pagination-sm justify-content-center">
-        <?php
-        // 간단 페이지 네비게이션
-        $window = 5;
-        $startP = max(1, $page - $window);
-        $endP   = min($totalPages, $page + $window);
-
-        $prev = max(1, $page - 1);
-        $next = min($totalPages, $page + 1);
-        ?>
-        <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-          <a class="page-link" href="/?cmd=board&bid=<?= $bid ?>&mode=list&page=1">«</a>
-        </li>
-        <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-          <a class="page-link" href="/?cmd=board&bid=<?= $bid ?>&mode=list&page=<?= $prev ?>">‹</a>
-        </li>
-        <?php for ($p = $startP; $p <= $endP; $p++): ?>
-          <li class="page-item<?= $p === $page ? ' active' : '' ?>">
-            <a class="page-link" href="/?cmd=board&bid=<?= $bid ?>&mode=list&page=<?= $p ?>"><?= $p ?></a>
-          </li>
-        <?php endfor; ?>
-        <li class="page-item<?= $page >= $totalPages ? ' disabled' : '' ?>">
-          <a class="page-link" href="/?cmd=board&bid=<?= $bid ?>&mode=list&page=<?= $next ?>">›</a>
-        </li>
-        <li class="page-item<?= $page >= $totalPages ? ' disabled' : '' ?>">
-          <a class="page-link" href="/?cmd=board&bid=<?= $bid ?>&mode=list&page=<?= $totalPages ?>">»</a>
-        </li>
-      </ul>
-    </nav>
-    <?php
-    return;
+    // 글쓰기 버튼
+    echo "<a href='index.php?cmd=board&bid=$bid&mode=write'><button class='btn btn-primary'>글쓰기</button></a>";
+    exit;
 }
 
-// 글쓰기(write) + 등록 처리(POST)
+// 게시글 보기
+if ($mode === 'show' && $idx) {
+    $query = "SELECT * FROM bbs WHERE bid = $bid AND idx = $idx";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_assoc($result);
+    if (!$row) die('글을 찾을 수 없습니다.');
+
+    $row['html'] = nl2br($row['html']);
+
+    echo "
+    <div class='row'>
+        <div class='col-2 colLine'>제목</div>
+        <div class='col colLine'>{$row['title']}</div>
+    </div>
+    <div class='row'>
+        <div class='col-2 colLine'>작성자</div>
+        <div class='col colLine'>{$row['id']}</div>
+    </div>
+    <div class='row'>
+        <div class='col-2 colLine'>작성일</div>
+        <div class='col colLine'>{$row['time']}</div>
+    </div>
+    <div class='row'>
+        <div class='col colLine' style='height:300px; min-height:300px;'>{$row['html']}</div>
+    </div>
+    <div class='row'>
+        <div class='col-2 colLine'>첨부</div>
+        <div class='col colLine'>";  
+        if ($row['file']) {
+            echo "<p>첨부파일: <a href='uploads/{$row['file']}' download>{$row['file']}</a></p>";
+        }
+        echo "</div>
+    </div>
+    <div class='row'>
+        <div class='col colLine text-center'>
+            <a href='index.php?cmd=board&bid=$bid&mode=list'><button class='btn btn-primary'>목록보기</button></a> 
+            <a href='index.php?cmd=board&bid=$bid&mode=write&idx=$idx'><button  class='btn btn-primary'>수정하기</button></a>
+            <a href='index.php?cmd=board&bid=$bid&mode=delete&idx=$idx'><button  class='btn btn-primary'>삭제하기</button></a>
+        </div>
+    </div>
+    ";
+
+ 
+    exit;
+}
+
+// 글쓰기/수정 화면
 if ($mode === 'write') {
-    // 등록 처리
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $title = trim($_POST['title'] ?? '');
-        $writerId = trim($_POST['writer'] ?? ''); // bbs.id 컬럼에 저장 (작성자 ID)
-        $html  = trim($_POST['html'] ?? '');
-
-        if ($title === '' || $writerId === '' || $html === '') {
-            echo '<script>alert("제목, 작성자, 내용을 모두 입력해 주세요."); history.back();</script>';
-            return;
-        }
-
-        $stmt = mysqli_prepare($conn,
-            "INSERT INTO bbs (bid, title, html, id, file, time)
-             VALUES (?, ?, ?, ?, NULL, NOW())");
-        mysqli_stmt_bind_param($stmt, "isss", $bid, $title, $html, $writerId);
-        $ok = mysqli_stmt_execute($stmt);
-        if ($ok) {
-            mysqli_stmt_close($stmt);
-            echo '<script>alert("등록되었습니다."); location.href="/?cmd=board&bid=' . $bid . '&mode=list";</script>';
-            return;
-        } else {
-            $err = h(mysqli_error($conn));
-            mysqli_stmt_close($stmt);
-            echo '<script>alert("등록 실패: ' . $err . '"); history.back();</script>';
-            return;
-        }
+    $title = $html = $file = '';
+    if ($idx) { // 수정일 경우
+        $query = "SELECT * FROM bbs WHERE bid = $bid AND idx = $idx";
+        $result = mysqli_query($conn, $query);
+        $row = mysqli_fetch_assoc($result);
+        if (!$row) die('글을 찾을 수 없습니다.');
+        $title = $row['title'];
+        $html = $row['html'];
+        $file = $row['file'];
     }
 
-    // 입력 폼
-    ?>
-    <h4 class="mb-3"><?= h($bid === 1 ? '공지사항' : ($bid === 2 ? '자유게시판' : '게시판')) ?> 글쓰기</h4>
-    <form method="post" action="/?cmd=board&bid=<?= $bid ?>&mode=write">
-      <div class="mb-3">
-        <label class="form-label">제목</label>
-        <input type="text" name="title" class="form-control" placeholder="제목을 입력하세요" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">작성자(ID)</label>
-        <input type="text" name="writer" class="form-control" placeholder="작성자 ID를 입력하세요" value="<?= isset($_SESSION['kpc_id']) ? h($_SESSION['kpc_id']) : '' ?>" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">내용</label>
-        <textarea name="html" class="form-control" rows="8" placeholder="내용을 입력하세요" required></textarea>
-      </div>
-
-      <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-primary">글등록</button>
-        <a class="btn btn-outline-secondary" href="/?cmd=board&bid=<?= $bid ?>&mode=list">목록보기</a>
-      </div>
-    </form>
-    <?php
-    return;
+    
+    echo "<h2>" . ($idx ? "글 수정" : "글 쓰기") . "</h2>";
+    echo "<form method='post' action='index.php?cmd=board&bid=$bid&mode=dbwrite' enctype='multipart/form-data'>";
+    
+    // 게시글 번호 (수정용)
+    if ($idx) {
+        echo "<input type='hidden' name='idx' value='$idx'>";
+    }
+    
+    // 제목 입력
+    echo "<div class='row mb-3'>";
+    echo "  <div class='col-2 colLine text-end'>제목</div>";
+    echo "  <div class='col colLine'>";
+    echo "      <input type='text' name='title' value='$title' class='form-control'>";
+    echo "  </div>";
+    echo "</div>";
+    
+    // 작성자 (읽기 전용)
+    echo "<div class='row mb-3'>";
+    echo "  <div class='col-2 colLine text-end'>작성자</div>";
+    echo "  <div class='col colLine'>";
+    echo "      <input type='text' name='id' value='{$_SESSION['kpcid']}' class='form-control' readonly>";
+    echo "  </div>";
+    echo "</div>";
+    
+    // 내용 입력
+    echo "<div class='row mb-3'>";
+    echo "  <div class='col-2 colLine text-end'>내용</div>";
+    echo "  <div class='col colLine'>";
+    echo "      <textarea name='html' rows='10' class='form-control'>$html</textarea>";
+    echo "  </div>";
+    echo "</div>";
+    
+    // 파일 첨부
+    echo "<div class='row mb-3'>";
+    echo "  <div class='col-2 colLine text-end'>파일</div>";
+    echo "  <div class='col colLine'>";
+    echo "      <input type='file' name='file' class='form-control'>";
+    echo "  </div>";
+    echo "</div>";
+    
+    // 버튼
+    echo "<div class='row'>";
+    echo "  <div class='col-2'></div>"; // 왼쪽 여백
+    echo "  <div class='col'>";
+    echo "      <a href='index.php?cmd=board&bid=$bid&mode=list' class='btn btn-secondary'>목록보기</a>";
+    echo "      <button type='submit' class='btn btn-primary'>글등록</button>";
+    echo "  </div>";
+    echo "</div>";
+    
+    echo "</form>";
+  
+    
+    exit;
 }
 
-// 글 내용 보기(show) + 삭제(delete)
-if ($mode === 'show') {
-    if ($idx <= 0) {
-        echo '<div class="alert alert-warning">잘못된 접근입니다. (idx 누락)</div>';
-        return;
+// 글 등록(DB 저장)
+if ($mode === 'dbwrite' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = $_POST['title'];
+    $html = $_POST['html'];
+    $id = $_POST['id'];
+    $file = $_FILES['file']['name'] ?? null;
+
+    /*
+    $title = str_replace("<", "&lt;", $title);
+    $title = str_replace(">", "&gt;", $title);
+
+    $title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+    $html = htmlspecialchars($html, ENT_QUOTES, 'UTF-8');;
+
+    $html = str_replace("<", "&lt;", $html);
+    $html = str_replace(">", "&gt;", $html);
+    */
+    
+    // 파일 업로드 처리
+    if ($file) {
+        $targetDir = "uploads/";
+        $targetFile = $targetDir . basename($_FILES['file']['name']);
+        move_uploaded_file($_FILES['file']['tmp_name'], $targetFile);
     }
 
-    $stmt = mysqli_prepare($conn,
-        "SELECT idx, bid, title, html, id, time
-         FROM bbs
-         WHERE idx = ? AND bid = ?
-         LIMIT 1");
-    mysqli_stmt_bind_param($stmt, "ii", $idx, $bid);
-    mysqli_stmt_execute($stmt);
-    $res = mysqli_stmt_get_result($stmt);
-    $row = mysqli_fetch_assoc($res);
-    mysqli_free_result($res);
-    mysqli_stmt_close($stmt);
-
-    if (!$row) {
-        echo '<div class="alert alert-warning">존재하지 않는 글입니다.</div>';
-        return;
+    if (isset($_POST['idx'])) { // 수정
+        $idx = $_POST['idx'];
+        $query = "UPDATE bbs SET title='$title', html='$html', file='$file' WHERE idx=$idx";
+    } else { // 새 글
+        $query = "INSERT INTO bbs (bid, title, html, id, file)
+                     VALUES ($bid, '$title', '$html', '$id', '$file')";
     }
+    $result = mysqli_query($conn, $query);
+    echo "
+    
+    <script>
+        location.href='index.php?cmd=board&bid=$bid&mode=list';
+    </script>
+    ";
 
-    $mineOrAdmin = (isset($_SESSION['kpc_level']) && (int)$_SESSION['kpc_level'] === 9)
-                   || (isset($_SESSION['kpc_id']) && $_SESSION['kpc_id'] === $row['id']);
-
-    ?>
-    <div class="mb-2">
-      <h4 class="mb-1"><?= h($row['title']) ?></h4>
-      <div class="text-muted">
-        작성자: <?= h($row['id']) ?> · 작성일: <?= ymd($row['time']) ?>
-      </div>
-    </div>
-
-    <div class="border rounded p-3 mb-3" style="min-height:300px;">
-      <?= nl2br(h($row['html'])) ?>
-    </div>
-
-    <div class="d-flex gap-2">
-      <a class="btn btn-outline-secondary" href="/?cmd=board&bid=<?= $bid ?>&mode=list">목록</a>
-      <?php if ($mineOrAdmin): ?>
-        <a class="btn btn-outline-danger"
-           href="/?cmd=board&bid=<?= $bid ?>&mode=delete&idx=<?= (int)$row['idx'] ?>"
-           onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
-      <?php endif; ?>
-    </div>
-    <?php
-    return;
+    exit;
 }
 
-if ($mode === 'delete') {
-    if ($idx <= 0) {
-        echo '<div class="alert alert-warning">잘못된 접근입니다. (idx 누락)</div>';
-        return;
-    }
-
-    // 글 소유자 확인
-    $stmt = mysqli_prepare($conn, "SELECT id FROM bbs WHERE idx = ? AND bid = ? LIMIT 1");
-    mysqli_stmt_bind_param($stmt, "ii", $idx, $bid);
-    mysqli_stmt_execute($stmt);
-    $res = mysqli_stmt_get_result($stmt);
-    $row = mysqli_fetch_assoc($res);
-    mysqli_free_result($res);
-    mysqli_stmt_close($stmt);
-
-    if (!$row) {
-        echo '<div class="alert alert-warning">존재하지 않는 글입니다.</div>';
-        return;
-    }
-
-    $mineOrAdmin = (isset($_SESSION['kpc_level']) && (int)$_SESSION['kpc_level'] === 9)
-                   || (isset($_SESSION['kpc_id']) && $_SESSION['kpc_id'] === $row['id']);
-
-    if (!$mineOrAdmin) {
-        echo '<script>alert("삭제 권한이 없습니다."); location.href="/?cmd=board&bid=' . $bid . '&mode=show&idx=' . $idx . '";</script>';
-        return;
-    }
-
-    $stmtD = mysqli_prepare($conn, "DELETE FROM bbs WHERE idx = ? AND bid = ? LIMIT 1");
-    mysqli_stmt_bind_param($stmtD, "ii", $idx, $bid);
-    $ok = mysqli_stmt_execute($stmtD);
-    mysqli_stmt_close($stmtD);
-
-    if ($ok) {
-        echo '<script>alert("삭제되었습니다."); location.href="/?cmd=board&bid=' . $bid . '&mode=list";</script>';
-        return;
-    } else {
-        $err = h(mysqli_error($conn));
-        echo '<script>alert("삭제 실패: ' . $err . '"); location.href="/?cmd=board&bid=' . $bid . '&mode=show&idx=' . $idx . '";</script>';
-        return;
-    }
+// 글 삭제
+if ($mode === 'delete' && $idx) {
+    $query = "DELETE FROM bbs WHERE idx = $idx AND bid = $bid";
+    mysqli_query($conn, $query);
+    header("Location: index.php?cmd=board&bid=$bid&mode=list");
+    exit;
 }
-
-// 정의되지 않은 mode인 경우 list로
-header('Location: /?cmd=board&bid=' . $bid . '&mode=list');
-exit;
+?>
