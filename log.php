@@ -28,7 +28,7 @@
     }else
     {
         $SendingMsg = "접속자가 갑자기 증가했습니다. 확인하세요.";
-        include "auto_sms.php";
+        //include "auto_sms.php";
         $_SESSION['sess_sms'] = "sendOK";
     }
 
