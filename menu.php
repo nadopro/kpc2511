@@ -34,22 +34,34 @@ $kpc_level = isset($_SESSION['kpc_level']) ? (int)$_SESSION['kpc_level'] : 0;
 
         <!-- menu2 -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">menu2</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">보안 예제</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/?cmd=menu2-1">menu2-1</a></li>
-            <li><a class="dropdown-item" href="/?cmd=menu2-2">menu2-2</a></li>
+            <li><a class="dropdown-item" href="/?cmd=chart">구글차트</a></li>
+            <li><a class="dropdown-item" href="/?cmd=generator">데이터생성기</a></li>
+            <li><a class="dropdown-item" href="/?cmd=monitor">모니터링</a></li>
           </ul>
         </li>
 
-        <!-- menu3 -->
+        <?php
+        if(isset($_SESSION['kpc_id']))
+        {
+          if(isset($_SESSION['kpc_level']) and $_SESSION['kpc_level'] ==9)
+          {
+
+        ?>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">menu3</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">관리자전용</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/?cmd=menu3-1">menu3-1</a></li>
             <li><a class="dropdown-item" href="/?cmd=menu3-2">menu3-2</a></li>
           </ul>
         </li>
       </ul>
+
+      <?php
+          }
+        }
+      ?>
 
       <!-- 우측: 로그인 상태 버튼 -->
       <div class="d-flex align-items-center">
