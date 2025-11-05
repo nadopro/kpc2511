@@ -792,3 +792,24 @@ editor.php 파일을 만들어줘.
 
 d3js.org
 
+Q19.
+
+다음과 같은 MySQL 스키마를 만들어 줘.
+
+table name : sensor
+필드 정보는 다음과 같아.
+
+idx : 키값, 자동 증가
+temp : 온도 저장, float
+hum : 습도 저장 , float
+time : datetime
+
+CREATE TABLE sensor (
+  idx  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  temp FLOAT NOT NULL COMMENT '온도',
+  hum  FLOAT NOT NULL COMMENT '습도',
+  time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '측정 시각'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+insert into sensor temp, hum, time 
+  values('27.5', '60.1', now());
