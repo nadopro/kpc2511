@@ -7,6 +7,7 @@ session_start();
 
 date_default_timezone_set("Asia/Seoul");
 
+include_once __DIR__ . "/config.php";
 include_once __DIR__ . "/db.php";
 $conn = connectDB();
 
