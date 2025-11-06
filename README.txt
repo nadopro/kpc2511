@@ -1068,6 +1068,30 @@ burp suite 등으로 확인하면 비밀번호가 그대로 노출되고 있어.
 
 
 ajax
+Q25
+
+index.php?cmd=join 
+이렇게 접속하면 index.php에서 바디부분에 include "join.php"
+동작하도록 할거야.
+index.php에서는 이미 데이터베이스 접속과 관련된 처리를 끝났고
+접속정보는 $conn 에 들어있어.
+회원가입하는 페이지인데,
+아이디, 이름, 비밀번호, 비밀번호 확인만 있는 간단한 입력 예제를 만들거야.
+아이디 입력검사를 할 때는 사용자의 키보드 입력에 따라(onKeyUp)
+ajax로 user 테이블에 같은 아이디가 있는지 검사해서
+화면에 "사용가능한 아이디입니다."는 녹색(text-success)으로 표시하고
+"사용중인 아이디입니다."는 빨간색(text-danger)로 출력하고 싶어.
+만약에 입력 아이디의 길이가 4글자보다 작으면
+"4글자 이상만 가능합니다."라고 파란색(text-primary)로 출력하고 싶어.
+이 파일은 join.php를 만들고 싶고,
+아약스로 응답하는 코드는 ajaxCheckId.php 파일이야.
+두 파일을 만들어 줘.
+이때, ajaxCheckId.php 파일에는 include "db.php";하고
+$conn = connectDB();로 호출하면 연결은 자동으로 돼.
+ajax로 입력한 아이디를 전달할때는 JSON으로 주고 받고 싶어.
+
+
+
 fake data 만들기
 id, pass 저장
 black list
