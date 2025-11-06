@@ -823,3 +823,17 @@ Crawling : wget, curl (ClientURL)
 index.php 25 line에 jQuery를 위한 라이브러리 추가 되었음.
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+JSON
+network diagram
+시간의 표현
+db backup과 파일시스템
+localStorage
+ajax
+fake data 만들기
+id, pass 저장
+black list
+ip 좌표찾기 API 사이트
+https://ip-api.com/
+webftp
+flag for nations
