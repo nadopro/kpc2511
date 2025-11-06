@@ -1088,12 +1088,12 @@ ajax로 user 테이블에 같은 아이디가 있는지 검사해서
 두 파일을 만들어 줘.
 이때, ajaxCheckId.php 파일에는 include "db.php";하고
 $conn = connectDB();로 호출하면 연결은 자동으로 돼.
-ajax로 입력한 아이디를 전달할때는 JSON으로 주고 받고 싶어.
+ajax로 입력한 아이디를 전달할 때는 JSON으로 주고 받고 싶어.
 
 
 
 fake data 만들기
-id, pass 저장
+
 black list
 ip 좌표찾기 API 사이트
 https://ip-api.com/
