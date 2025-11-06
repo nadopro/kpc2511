@@ -37,10 +37,12 @@
         ]);
         $response = curl_exec($curl);
     }
+
+    $pretty = json_encode(json_decode($response, true), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ?>
 
     <div class="row">
         <div class="col colLine">
-            <textarea class="form-control" rows="10"><?php echo $response?></textarea>
+            <textarea class="form-control" rows="10"><?php echo htmlspecialchars($pretty) ?></textarea>
         </div>
     </div>

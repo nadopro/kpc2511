@@ -1117,5 +1117,17 @@ https://ip-api.com/json/175.114.70.15
   "lat":39.03,
   "lon":-77.5,"timezone":"America/New_York","isp":"Google LLC","org":"Google Public DNS","as":"AS15169 Google LLC","query":"8.8.8.8"}
 
+
+Q27.
+
+ip-api.com에 정보를 요청해서 JSON 데이터를 받았는데,
+받은 결과가 다음과 같아.
+
+{"status":"success","country":"South Korea","countryCode":"KR","region":"11","regionName":"Seoul","city":"Eunpyeong-gu","zip":"034","lat":37.597,"lon":126.9156,"timezone":"Asia/Seoul","isp":"SK Broadband Co Ltd","org":"SK Broadband Co Ltd","as":"AS9318 SK Broadband Co Ltd","query":"175.114.70.15"}
+
+이렇게 된 결과가 $res에 들어있는데,
+이 값을 textarea에 출력했더니, 보기가 너무 어려워.
+사람이 보기 편하게(PRETTY) 출력하고 싶어.
+
 webftp
 flag for nations
