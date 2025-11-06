@@ -21,6 +21,7 @@ $kpc_level = isset($_SESSION['kpc_level']) ? (int)$_SESSION['kpc_level'] : 0;
             <li><a class="dropdown-item" href="/?cmd=test">test</a></li>
             <li><a class="dropdown-item" href="/?cmd=login">로그인</a></li>
             <li><a class="dropdown-item" href="/?cmd=injection">로그인(Injection)</a></li>
+            <li><a class="dropdown-item" href="/?cmd=injectionSave">로그인(Save)</a></li>
             <li><a class="dropdown-item" href="/?cmd=secureLogin">로그인(Secure)</a></li>
             <li><a class="dropdown-item" href="/?cmd=brute">Brute Force</a></li>
             <li><a class="dropdown-item" href="/?cmd=brute2">Brute Force2</a></li>

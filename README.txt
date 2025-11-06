@@ -936,10 +936,111 @@ Q21.
 
   newtowk.php 파일을 만들어줘.
 
+enum { "Trying" = 100, "Ringing" = 180", "OK" = 200,
+        "BadRequest" = 400, "Forbidden" = 403,
+        "Not Found", "Method Not Allowed", 
+}
 
+ENUM : tElephone NUMber
 
 db backup과 파일시스템
+
+mysqldump -u 사용자아이디 데이터베이스이름 -p > 파일이름.db.sql
+
+System   OS          DB
+SERVER    unix        Oracle
+PC        linux       MySQL, MS-SQL, MariaDB
+Mobile    Android/ios   SQLite
+Memory                H2DB
+
+
+Lite = Light
+copyright   copyleft
+
 localStorage
+
+Q22.
+
+<?php
+// injectionSave.php
+// 하드코딩 로그인 전용
+// 세션은 index.php에서 이미 시작됨 (kpc_id, kpc_name, kpc_level 사용)
+
+// 로그아웃 처리 (?action=logout)
+$action = $_GET['action'] ?? '';
+if ($action === 'logout') {
+    unset($_SESSION['kpc_id'], $_SESSION['kpc_name'], $_SESSION['kpc_level']);
+    echo '<script>alert("로그아웃 되었습니다."); location.href="/?cmd=init";</script>';
+    return;
+}
+
+// 로그인 처리 (POST)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'] ?? '';
+    $pw = $_POST['pw'] ?? '';
+
+    $ok = false;
+
+    $sql = "select * from users where id='$id' and pass='$pw'";
+    $result = mysqli_query($conn, $sql);
+    $data = mysqli_fetch_array($result);
+
+    if($data)
+    {
+      $_SESSION['kpc_id']    = $data['id'];
+      $_SESSION['kpc_name']  = $data['name'];
+      $_SESSION['kpc_level'] = $data['level'];
+      $ok = true;
+
+    }
+    // 하드코딩 계정
+
+    if ($ok) {
+        echo '<script>alert("로그인 성공"); location.href="/?cmd=init";</script>';
+        return;
+    } else {
+        echo '<script>alert("아이디와 비밀번호를 확인하세요."); location.href="/?cmd=injection";</script>';
+        return;
+    }
+}
+
+// GET: 로그인 폼 출력
+?>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-6">
+    <h3 class="mb-3">로그인</h3>
+    <form method="post" action="/?cmd=injectionSave">
+      <div class="mb-3">
+        <label class="form-label">ID</label>
+        <input type="checkbox" id="saveid">
+        <input type="text" name="id" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">PW</label>
+        <input type="checkbox" id="savepass">
+        <input type="password" name="pw" class="form-control" required>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">로그인</button>
+        <a href="/?cmd=init" class="btn btn-outline-secondary">취소</a>
+      </div>
+    </form>
+    <hr>
+    <div class="text-muted small mt-2">
+      * 테스트 계정: admin / abcd (레벨 9), test / abcd (레벨 1)
+    </div>
+  </div>
+</div>
+
+
+이렇게 동작하는 코드가 있어.
+saveid, savepass를 체크한 후에 로그인 버튼을 클릭하면
+localStorage에 입력값을 저장하고 싶어.
+또, localStorag에 id, pass가 저장되어 있으면
+두 체크박스가 선택되어 있고,
+아이디와 비밀번호에는 저장된 값을 출력해 놓고 싶어.
+이렇게 동작하도록 코드를 수정해 줘.
+
 ajax
 fake data 만들기
 id, pass 저장
