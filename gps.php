@@ -79,10 +79,15 @@
         </div>
         <div class="row">
             <div class="col-2 text-end">검색</div>
-            <div class="col"><?php echo $key?></div>
+            <div class="col"><?php echo $key?>
+        
+            <button type="button" class="btn btn-primary" onClick="window.open('https://www.google.com/maps?q=<?php echo $key?>', 'MYGPS', 'resizable=yes scrollbars=yes width=1200 height=1000')"><span class="material-icons">search</span>
+            </button>
+        </div>
         </div>
         <?php
 
         // google.com/maps 여기에 검색어로 검색
+        // https://www.google.com/maps?q=37.5665,126.9780
     }
 ?>
