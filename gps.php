@@ -46,3 +46,35 @@
             <textarea class="form-control" rows="10"><?php echo htmlspecialchars($pretty) ?></textarea>
         </div>
     </div>
+
+<?php
+    $data = json_decode($response, true);
+
+    if($data['status'] == "success")
+    {
+        $lat = $data['lat'];
+        $lon = $data['lon'];
+        $country = $data['country'];
+        $countryCode = $data['countryCode']; // KR, JP, UK
+        $region = $data['regionName'];
+        
+        ?>
+        <div class="row">
+            <div class="col-2 text-end">국가</div>
+            <div class="col"><?php echo $country?> (<?php echo $countryCode?>) </div>
+        </div>
+        <div class="row">
+            <div class="col-2 text-end">도시</div>
+            <div class="col"><?php echo $region?></div>
+        </div>
+        <div class="row">
+            <div class="col-2 text-end">경도(Lon)</div>
+            <div class="col"><?php echo $lon?></div>
+        </div>
+        <div class="row">
+            <div class="col-2 text-end">위도(Lat)</div>
+            <div class="col"><?php echo $lat?></div>
+        </div>
+        <?php
+    }
+?>
