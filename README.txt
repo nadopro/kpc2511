@@ -824,9 +824,120 @@ index.php 25 line에 jQuery를 위한 라이브러리 추가 되었음.
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-JSON
-network diagram
 시간의 표현
+  linux, unix : 1970-1-1 : 0, 1초마다 증가
+  윈도우 : 1900-01-01 : 1일마다 1씩 증가.
+
+JSON : JavaScript Object Notation
+  id: "test"
+  pw: "1111"
+
+  {} : 객체
+  [] : 리스트
+
+  1. 하나의 객체 표현
+  {
+    "name":"홍길동",
+    "age": 12,
+    "company":"생산성본부"
+  }
+
+  {
+    "name":"홍길동",     "age": 12,     "company":"생산성본부"
+  }
+
+  2. 하나의 객체 속에, 객체를 포함
+  {
+    "name":"홍길동",
+    "age": 12,
+    "company": {
+      "name": "생산성본부",
+      "http": "https://kpc.or.kr"
+    }
+  }
+
+  3. 하나의 객체에, 여러개의 객체로 구성
+
+  {
+    "info" : { 
+      "name":"홍길동",
+      "age": 12,
+    },    
+    "company": {
+      "name": "생산성본부",
+      "http": "https://kpc.or.kr"
+    }
+  }
+
+  4. 객체의 나열
+  {
+      "직원": [
+        {
+          "name":"홍길동",
+          "age" : 12
+        },
+        {
+          "name":"이순신",
+          "age" : 34
+        },
+        {
+          "name":"정약용",
+          "age" : 31
+        }
+      ]
+  }
+
+network diagram
+
+Q20.
+  인물관계를 나타내기 위해 JSON 데이터를 만들고 싶어.
+  nodes, links가 있는데
+  nodes는 인물 정보의 목록을 나타내는 정보
+  links는 인물 관계 정보(relation)를 나타내는 정보
+
+  nodes에는 사람 이름이 있는데,
+    홍길동, 홍대감, 이이, 사임당, 정약용, 정약전 이 있어.
+  links는 다음과 같은 정보가 있어.
+    홍대감의 아들 홍길동,
+    홍길동의 친구 이이,
+    사임당의 아들 이이,
+    정약용과 정약전은 형제
+    정약용과 홍길동은 친구
+
+
+{
+  "nodes": [
+    { "id": "홍길동" },
+    { "id": "홍대감" },
+    { "id": "이이" },
+    { "id": "사임당" },
+    { "id": "정약용" },
+    { "id": "정약전" }
+  ],
+  "links": [
+    { "source": "홍대감", "target": "홍길동", "relation": "아들" },
+    { "source": "홍길동", "target": "이이", "relation": "친구" },
+    { "source": "사임당", "target": "이이", "relation": "아들" },
+    { "source": "정약용", "target": "정약전", "relation": "형제" },
+    { "source": "정약전", "target": "정약용", "relation": "형제" },
+    { "source": "정약용", "target": "홍길동", "relation": "친구" }
+  ]
+}
+
+Q21.
+  이렇게 만들어진 JSON 파일을 이용해서 D3JS의 네트워크 다이어그램으로
+  시각화하고 싶어.
+  이때, 마우스 스크롤로 확대 축소도 가능하게 하고,
+  전체 그래프를 이동시킬 수 있도록 해줘.
+  index.php?cmd=network 접속해서
+  이 HTML의 헤더는 모두 다 구성되어 있어.
+  include "network.php"; 이렇게 호출할 예정이니,
+  네트워크 다이어그램만 그리면 돼.
+
+  newtowk.php 파일을 만들어줘.
+
+
+
 db backup과 파일시스템
 localStorage
 ajax
