@@ -1093,9 +1093,29 @@ ajax로 입력한 아이디를 전달할 때는 JSON으로 주고 받고 싶어.
 
 
 fake data 만들기
+fake.php
+랜덤이 정말 랜덤이냐?
 
 black list
 ip 좌표찾기 API 사이트
-https://ip-api.com/
+
+Q26
+
+ip 주소를 입력하면, 해당 ip의 위성좌표를 API 형태로 알려주는 웹 사이트를 찾아줘.
+
+https://ip-api.com/json/175.114.70.15
+
+
+{
+  "status":"success",
+  "country":"United States",
+  "countryCode":"US",
+  "region":"VA",
+  "regionName":"Virginia",
+  "city":"Ashburn",
+  "zip":"20149",
+  "lat":39.03,
+  "lon":-77.5,"timezone":"America/New_York","isp":"Google LLC","org":"Google Public DNS","as":"AS15169 Google LLC","query":"8.8.8.8"}
+
 webftp
 flag for nations
