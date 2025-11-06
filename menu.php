@@ -45,6 +45,7 @@ $kpc_level = isset($_SESSION['kpc_level']) ? (int)$_SESSION['kpc_level'] : 0;
             <li><a class="dropdown-item" href="/?cmd=crawling">크롤링</a></li>
             <li><a class="dropdown-item" href="/?cmd=network">인물관계</a></li>
             <li><a class="dropdown-item" href="/?cmd=join">회원가입(ajax)</a></li>
+            <li><a class="dropdown-item" href="/?cmd=monitor2">모니터링(AJAX)</a></li>
           </ul>
         </li>
 
