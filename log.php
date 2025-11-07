@@ -43,6 +43,43 @@
         ";
     }
 
+    function ip2nation($ip) // 1.2.3.4
+    {
+        $splitIP = explode(".", $ip);
+
+        include "ip_files/" . $splitIP[0] . ".php";
+
+        $code = ($splitIP[0] * 256 * 256 * 256) 
+                + ($splitIP[1] * 256 * 256)
+                + ($splitIP[2] * 256)
+                + $splitIP[3];
+
+        foreach($ranges as $key => $value)
+        {
+            if($key <= $code)
+            {
+                if($ranges[$key][0] >= $code)
+                {
+                    $nation = $ranges[$key][1];
+                    break;
+                }
+            }
+        }
+
+        if(!isset($nation))
+        {
+            $nation = "";
+        }
+
+        if(isset($nation) and $nation == "")
+        {
+            $nation = "noflag";
+        }
+
+        return $nation; // KR, US, JP
+    }
+
+
 ?>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -99,13 +136,18 @@
 
         while($data)
         {
+            $ip = $data['ip'];
+            $nation = ip2nation($ip);
+            $flag = "<img src='flags/$nation.gif'>";
+
+
             echo "
             <tr>
                 <td>$data[idx]</td>
                 <td>$data[id]</td>
                 <td>$data[work]</td>
                 <td>$data[ip]</td>
-                <td>FLAG</td>
+                <td>$flag</td>
             </tr>";
             $data = mysqli_fetch_array($result);
         }
@@ -120,5 +162,5 @@
     <script>
         setTimeout(function() {
             window.location.href = 'index.php?cmd=log';
-        }, 5000); // 3초 대기
+        }, 30000); // 3초 대기
     </script>
