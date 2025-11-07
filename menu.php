@@ -5,7 +5,7 @@ $kpc_id    = $_SESSION['kpc_id'] ?? null;
 $kpc_name  = $_SESSION['kpc_name'] ?? null;
 $kpc_level = isset($_SESSION['kpc_level']) ? (int)$_SESSION['kpc_level'] : 0;
 ?>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light bg-secondary">
   <div class="container">
     <a class="navbar-brand" href="/?cmd=init">KPC</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
@@ -48,6 +48,7 @@ $kpc_level = isset($_SESSION['kpc_level']) ? (int)$_SESSION['kpc_level'] : 0;
             <li><a class="dropdown-item" href="/?cmd=monitor2">모니터링(AJAX)</a></li>
             <li><a class="dropdown-item" href="/?cmd=fake">Fake Data</a></li>
             <li><a class="dropdown-item" href="/?cmd=gps">IP Map</a></li>
+            <li><a class="dropdown-item" href="/?cmd=webftp">탐색기</a></li>
           </ul>
         </li>
 

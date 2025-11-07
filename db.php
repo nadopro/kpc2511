@@ -20,4 +20,5 @@ function connectDB() {
 
     return $conn;
 }
+
 ?>

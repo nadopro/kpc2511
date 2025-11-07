@@ -1,0 +1,13 @@
+/* asset/style.css */
+
+a:link { text-decoration:none; color:#333333; }
+a:hover { text-decoration:none; color:#333333; font-weight:bold; }
+a:visited { text-decoration:none; color:#333333; }
+
+.colLine {
+    line-height:180%;
+    min-height: 30px;
+    border-bottom: 1px dotted #CCCCCC;
+    padding-top:4px;
+    padding-bottom:4px;
+}

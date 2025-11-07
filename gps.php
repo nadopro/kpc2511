@@ -63,28 +63,28 @@
         
         ?>
         <div class="row">
-            <div class="col-2 text-end">국가</div>
-            <div class="col"><?php echo $country?> (<?php echo $countryCode?>) </div>
+            <div class="col-2 colLine text-end">국가</div>
+            <div class="col colLine "><?php echo $country?> (<?php echo $countryCode?>) </div>
         </div>
         <div class="row">
-            <div class="col-2 text-end">도시</div>
-            <div class="col"><?php echo $region?></div>
+            <div class="col-2 colLine  text-end">도시</div>
+            <div class="col colLine "><?php echo $region?></div>
         </div>
         <div class="row">
-            <div class="col-2 text-end">경도(Lon)</div>
-            <div class="col"><?php echo $lon?></div>
+            <div class="col-2 colLine  text-end">경도(Lon)</div>
+            <div class="col colLine "><?php echo $lon?></div>
         </div>
         <div class="row">
-            <div class="col-2 text-end">위도(Lat)</div>
-            <div class="col"><?php echo $lat?></div>
+            <div class="col-2 colLine  text-end">위도(Lat)</div>
+            <div class="col colLine "><?php echo $lat?></div>
         </div>
         <div class="row">
-            <div class="col-2 text-end">ISP</div>
-            <div class="col"><?php echo $isp?></div>
+            <div class="col-2 colLine  text-end">ISP</div>
+            <div class="col colLine "><?php echo $isp?></div>
         </div>
         <div class="row">
-            <div class="col-2 text-end">검색</div>
-            <div class="col"><?php echo $key?>
+            <div class="col-2 colLine  text-end">검색</div>
+            <div class="col colLine "><?php echo $key?>
         
             <button type="button" class="btn btn-sm btn-primary" onClick="window.open('https://www.google.com/maps?q=<?php echo $key?>', 'MYGPS', 'resizable=yes scrollbars=yes width=1200 height=1000')"><span class="material-icons">search</span>
             </button>

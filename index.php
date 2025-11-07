@@ -37,7 +37,7 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
     //$BLOCK_COUNT = 10;
 
     // 다음 줄은 테스트 후 삭제
-    $ip = "2.3.4.15";
+    // $ip = "2.3.4.15";
     if($BLOCK_BY_NETWORK == true)
     {
       $splitIP = explode(".", $ip);
@@ -53,7 +53,9 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
     
     $result = mysqli_query($conn, $sql);
     $connectCount = mysqli_num_rows($result);
-    echo "$connectCount<br>";
+
+    if($LOG_FLAG)
+      echo "$connectCount<br>";
     if($connectCount >= $BLOCK_COUNT)
     {
       $sql = "select * from black where ip='$ip' ";
@@ -65,13 +67,16 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
         $sql = "update black set reject = reject + 1 where ip='$ip'";
         $result = mysqli_query($conn, $sql);
 
-        echo "Reject Count ++<br>";
+        if($LOG_FLAG)
+          echo "Reject Count ++<br>";
       }else
       {
         $sql = "insert into black (ip, reason, reject, time) 
               values ('$ip', '비정상적인 과도한 접속', '1', now())";
         $result = mysqli_query($conn, $sql);
-        echo "Add to Black list<br>";
+        
+        if($LOG_FLAG)
+          echo "Add to Black list<br>";
       }     
 
       echo"
@@ -97,6 +102,7 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
     <script src="asset/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="asset/style.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
