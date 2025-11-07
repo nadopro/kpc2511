@@ -56,7 +56,7 @@ if ($mode === 'list') {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr>
                         <td class='col'>{$row['idx']}</td>
-                        <td class='col-7'><a href='index.php?cmd=board&bid=$bid&mode=show&idx={$row['idx']}'>{$row['title']}</a></td>
+                        <td class='col-7 ellipsis'><a href='index.php?cmd=board&bid=$bid&mode=show&idx={$row['idx']}'>{$row['title']}</a></td>
                         <td class='col'>{$row['id']}</td>
                         <td class='col'>{$row['time']}</td>
                     </tr>";
