@@ -1169,3 +1169,14 @@ insert into black (ip, reason, time) values ('1.2.3.4', '블랙리스트 테스�
 
 webftp
 flag for nations
+
+
+final_secure.db.sql 사용
+
+secure / secure / 1111 생성후
+source final_secure.db.sql
+
+final_c_xampp_data.zip
+압축 풀고, xampp 설치한 후
+
+c:/xampp/mysql/data 폴더를 대체
