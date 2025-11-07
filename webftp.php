@@ -54,6 +54,38 @@
     {
         $_SESSION[$sess_path] = $_GET["pdir"];
     }
+
+    // 없는 파일을 등록 , 있는데 지우고 새로만들기(수정)
+    if(isset($_POST["fname"]) and isset($_POST["fdata"]))
+    {
+        $fname = $_POST["fname"];
+        $fdata = $_POST["fdata"];
+
+        $pathFile = $_SESSION[$sess_path] . "/" . $fname;
+
+        if(file_exists($pathFile))
+        {
+            unlink($pathFile);
+        }
+
+        if(!$handler = fopen($pathFile, 'w'))
+        {
+            echo "File Open Error for Write : $pathFile<br>";
+        }
+
+        if(fwrite($handler, $fdata)  == false)
+        {
+            echo "File Write Error : $pathFile<br>";
+        }
+
+        echo "
+        <script>
+            alert('파일 생성 완료 : $fname');
+            location.href='index.php?cmd=webftp';
+        </script>
+        ";
+
+    }
 ?>
 
 <div class="row">
@@ -103,6 +135,7 @@
             </td>
         </tr>
         <tr>
+            <form method="post" action="index.php?cmd=webftp">
             <td colspan='2' class="col">
                 <?php
                     if(isset($_GET["pfile"]))
@@ -120,12 +153,16 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-3 colLine">파일명</div>
+                    <div class="col-3 text-end colLine">파일명</div>
                     <div class="col colLine">
                         <input type="text" name="fname" class="form-control" palceholder="파일이름을 입력하세요">
                     </div>
+                    <div class="col-2 colLine">
+                        <button type="submit" class="btn btn-primary btn-sm form-control">등록</button>
+                    </div>
                 </div>
             </td>
+            </form>
         </tr>
     </table>
 </div>
