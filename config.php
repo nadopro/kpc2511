@@ -5,4 +5,7 @@
     $MOBILE1 = "1111";
     $MOBILE2 = "1111"; 
 
+    $BLOCK_BY_NETWORK = true;
+    $BLOCK_COUNT = 10;
+
 ?>

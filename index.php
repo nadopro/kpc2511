@@ -13,6 +13,79 @@ $conn = connectDB();
 
 // 라우팅용 cmd (기본값: init)
 $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
+
+    // 비정상적인 잦은 접속인가?
+  $q = $_SERVER["QUERY_STRING"];
+      //echo "q = $q<br>";
+      $ip = $_SERVER["REMOTE_ADDR"];
+      $ip1 = rand(1,254);
+      $ip2 = rand(1,254);
+      $ip3 = rand(1,254);
+      $ip4 = rand(1,254);
+      
+      $ip ="$ip1.$ip2.$ip3.$ip4";
+
+      //echo "ip = $ip<br>";
+
+      if(isset($_SESSION["kpc_id"]))
+        $userid = $_SESSION["kpc_id"];
+      else
+        $userid = "";
+    
+    // 비정상적인 트래픽인가?
+    //$BLOCK_BY_NETWORK = false;
+    //$BLOCK_COUNT = 10;
+
+    // 다음 줄은 테스트 후 삭제
+    $ip = "2.3.4.15";
+    if($BLOCK_BY_NETWORK == true)
+    {
+      $splitIP = explode(".", $ip);
+      $networks = "$splitIP[0].$splitIP[1].$splitIP[2].";
+
+      $sql = "select * from log 
+            where ip like '$networks%' and time >= (now() - interval 5 second) ";
+    }else
+    {
+      $sql = "select * from log 
+            where ip='$ip' and time >= (now() - interval 5 second) ";
+    }
+    
+    $result = mysqli_query($conn, $sql);
+    $connectCount = mysqli_num_rows($result);
+    echo "$connectCount<br>";
+    if($connectCount >= $BLOCK_COUNT)
+    {
+      $sql = "select * from black where ip='$ip' ";
+      $result = mysqli_query($conn, $sql);
+      $data = mysqli_fetch_array($result);
+
+      if($data)
+      {
+        $sql = "update black set reject = reject + 1 where ip='$ip'";
+        $result = mysqli_query($conn, $sql);
+
+        echo "Reject Count ++<br>";
+      }else
+      {
+        $sql = "insert into black (ip, reason, reject, time) 
+              values ('$ip', '비정상적인 과도한 접속', '1', now())";
+        $result = mysqli_query($conn, $sql);
+        echo "Add to Black list<br>";
+      }     
+
+      echo"
+      <script>
+        location.href='https://warning.or.kr';
+      </script>
+      ";
+    }
+
+
+      $sql = "insert into log (ip, id, work, time) 
+                values('$ip', '$userid', '$q', now() )";
+      mysqli_query($conn, $sql);
+
 ?>
 <!doctype html>
 <html lang="ko">
@@ -38,27 +111,7 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
 
       // index.php?cmd=test
 
-      $q = $_SERVER["QUERY_STRING"];
-      //echo "q = $q<br>";
-      $ip = $_SERVER["REMOTE_ADDR"];
-      $ip1 = rand(1,254);
-      $ip2 = rand(1,254);
-      $ip3 = rand(1,254);
-      $ip4 = rand(1,254);
       
-      $ip ="$ip1.$ip2.$ip3.$ip4";
-
-      //echo "ip = $ip<br>";
-
-      if(isset($_SESSION["kpc_id"]))
-        $userid = $_SESSION["kpc_id"];
-      else
-        $userid = "";
-    
-
-      $sql = "insert into log (ip, id, work, time) 
-                values('$ip', '$userid', '$q', now() )";
-      mysqli_query($conn, $sql);
 
 
       include "$cmd.php";

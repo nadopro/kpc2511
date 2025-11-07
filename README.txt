@@ -1163,6 +1163,9 @@ CREATE TABLE black (
 
 insert into black (ip, reason, time) values ('1.2.3.4', '블랙리스트 테스트', now());
 
+이 테이블에서 현재시간보다 5초 이전을 계산하는 질의를 알려줘.
+
+
 
 webftp
 flag for nations
