@@ -162,5 +162,5 @@
     <script>
         setTimeout(function() {
             window.location.href = 'index.php?cmd=log';
-        }, 30000); // 3초 대기
+        }, 10000); // 3초 대기
     </script>

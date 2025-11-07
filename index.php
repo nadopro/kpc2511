@@ -87,9 +87,13 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
     }
 
 
+    if($cmd != "log")
+    // if(isset($_SESSION['kpc_level']) and $_SESSION['kpc_level'] != 9)
+    {
       $sql = "insert into log (ip, id, work, time) 
                 values('$ip', '$userid', '$q', now() )";
       mysqli_query($conn, $sql);
+    }
 
 ?>
 <!doctype html>
@@ -113,12 +117,6 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
   <main class="container py-4 flex-grow-1">
     <?php
       // 요청하신 형태 그대로: include "$cmd.php"
-      // (필요시 보안을 위해 화이트리스트/패턴체크 추가 권장)
-
-      // index.php?cmd=test
-
-      
-
 
       include "$cmd.php";
     ?>
@@ -126,7 +124,8 @@ $cmd = isset($_GET['cmd']) ? $_GET['cmd'] : 'init';
 
   <footer class="bg-light border-top py-3 mt-auto">
     <div class="container small text-muted">
-      Copyright © Your Site
+      KPC 한국생산성본부 시큐어코딩<br>
+      정보보호책임자 : 홍길동(user@kpc.or.kr)
     </div>
   </footer>
 
