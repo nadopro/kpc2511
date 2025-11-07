@@ -57,7 +57,6 @@
         $country = $data['country'];
         $countryCode = $data['countryCode']; // KR, JP, UK
         $region = $data['regionName'];
-        $isp = $data['isp'];
 
         $key = "$lat , $lon";
         
@@ -77,10 +76,6 @@
         <div class="row">
             <div class="col-2 text-end">위도(Lat)</div>
             <div class="col"><?php echo $lat?></div>
-        </div>
-        <div class="row">
-            <div class="col-2 text-end">ISP</div>
-            <div class="col"><?php echo $isp?></div>
         </div>
         <div class="row">
             <div class="col-2 text-end">검색</div>

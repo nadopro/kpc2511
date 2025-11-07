@@ -1129,5 +1129,40 @@ ip-api.com에 정보를 요청해서 JSON 데이터를 받았는데,
 이 값을 textarea에 출력했더니, 보기가 너무 어려워.
 사람이 보기 편하게(PRETTY) 출력하고 싶어.
 
+Instance Search
+
+------------------------------------
+  Day 5
+-----------------------------------
+
+ip --> Domain
+
+Q28.
+
+IP주소를 입력하면 도메인을 찾는 무료 API 사이트가 있으면 알려줘.
+
+
+Q29.
+다음과 같은 MySQL 스키마를 하나 정의해.
+table name : black
+idx : auto_increment, primary key
+ip : varchar(20)
+reject : integer 
+reason : text
+time : datetime
+
+
+CREATE TABLE black (
+  idx INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  ip VARCHAR(20) NOT NULL, 
+  reject INT UNSIGNED NOT NULL DEFAULT 0 ,
+  reason TEXT ,
+  time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+insert into black (ip, reason, time) values ('1.2.3.4', '블랙리스트 테스트', now());
+
+
 webftp
 flag for nations
